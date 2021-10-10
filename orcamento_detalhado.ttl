@@ -1,0 +1,93 @@
+PREFIX loa: <http://vocab.e.gov.br/2013/09/loa#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+
+SELECT ?codExercicio ?data ?codEsfera ?descEsfera ?codOrgao ?descOrgao ?codUO ?descUO ?codFuncao ?descFuncao ?codSubfuncao ?descSubfuncao ?codPrograma ?descPrograma ?codAcao ?descAcao ?codSubtitulo ?descSubtitulo ?codPlanoOrcamentario ?descPlanoOrcamentario ?codFonte ?descFonte ?codCategoriaEconomica ?descCategoriaEconomica ?codGND ?descGND ?codModalidadeAplicacao ?descModalidadeAplicacao ?codIdUso ?descIdUso ?codResultadoPrimario ?descResultadoPrimario ?codElementoDespesa ?descElementoDespesa (sum(?val1) as ?ploa) (sum(?val2) as ?loa) (sum(?val3) as ?lei_mais_credito) (sum(?val4) as ?empenhado) (sum(?val5) as ?liquidado) (sum(?val6) as ?pago) WHERE { 
+   GRAPH <http://orcamento.dados.gov.br/2017/> {
+       ?i                    loa:temExercicio            ?exercicio .
+       ?exercicio            loa:dataUltimaAtualizacao   ?data .
+       ?exercicio            loa:identificador           ?codExercicio .
+       ?i                    loa:temEsfera               ?esfera .
+       ?esfera               loa:codigo                  ?codEsfera .
+       ?esfera               rdfs:label                  ?descEsfera .
+       ?UO                   loa:temOrgao                ?orgao .
+       ?orgao                loa:codigo                  ?codOrgao .
+       ?orgao                rdfs:label                  ?descOrgao .
+       ?i                    loa:temUnidadeOrcamentaria  ?UO .
+       ?UO                   loa:codigo                  ?codUO .
+       ?UO                   rdfs:label                  ?descUO . 
+       ?i                    loa:temFuncao               ?funcao .
+       ?funcao               loa:codigo                  ?codFuncao .
+       ?funcao               rdfs:label                  ?descFuncao .
+       ?i                    loa:temSubfuncao            ?subfuncao .
+       ?subfuncao            loa:codigo                  ?codSubfuncao .
+       ?subfuncao            rdfs:label                  ?descSubfuncao .
+       ?i                    loa:temPrograma             ?programa .
+       ?programa             loa:codigo                  ?codPrograma .
+       ?programa             rdfs:label                  ?descPrograma .  
+       ?i                    loa:temAcao                 ?acao .
+       ?acao                 loa:codigo                  ?codAcao .
+       ?acao                 rdfs:label                  ?descAcao .
+       ?i                    loa:temSubtitulo            ?subtitulo .
+       ?subtitulo            loa:codigo                  ?codSubtitulo .
+       ?subtitulo            rdfs:label                  ?descSubtitulo .
+       ?i                    loa:temPlanoOrcamentario    ?planoorcamentario .
+       ?planoorcamentario    loa:codigo                  ?codPlanoOrcamentario .
+       ?planoorcamentario    rdfs:label                  ?descPlanoOrcamentario .
+       ?i                    loa:temFonteRecursos        ?fonte .
+       ?fonte                loa:codigo                  ?codFonte .
+       ?fonte                rdfs:label                  ?descFonte .
+       ?i                    loa:temCategoriaEconomica   ?categoriaeconomica .
+       ?categoriaeconomica   loa:codigo                  ?codCategoriaEconomica .
+       ?categoriaeconomica   rdfs:label                  ?descCategoriaEconomica .
+       ?i                    loa:temGND                  ?GND .
+       ?GND                  loa:codigo                  ?codGND .
+       ?GND                  rdfs:label                  ?descGND .
+       ?i                    loa:temModalidadeAplicacao  ?modalidadeaplicacao .
+       ?modalidadeaplicacao  loa:codigo                  ?codModalidadeAplicacao .
+       ?modalidadeaplicacao  rdfs:label                  ?descModalidadeAplicacao .
+       ?i                    loa:temIdentificadorUso     ?iduso .
+       ?iduso                loa:codigo                  ?codIdUso .
+       OPTIONAL  {?iduso     rdfs:label                  ?descIdUso }.
+       ?i                    loa:temResultadoPrimario    ?resultadoprimario .
+       ?resultadoprimario    loa:codigo                  ?codResultadoPrimario .
+       OPTIONAL  
+      {?resultadoprimario    rdfs:label                  ?descResultadoPrimario }.
+       ?i                    loa:temElementoDespesa      ?elementoDespesa .
+       ?elementoDespesa      loa:codigo                  ?codElementoDespesa .
+       ?elementoDespesa      rdfs:label                  ?descElementoDespesa .
+
+      # Filtro. Insira o caractere '#' antes da linha para excluír a linha.
+      # Uma linha excluída, significa que o filtro não será considerado.
+      # Por exemplo, se for excluída a linha "#?funcao              loa:codigo  "26" ,
+      # Isso significa que todas as funções serão consideradas na pesquisa, não apenas a função "26" como anteriormente.
+
+      #?esfera               loa:codigo  "10"    .
+      #?orgao                loa:codigo  "39000" .
+      #?UO                   loa:codigo  "26101" .
+      #?funcao               loa:codigo  "26"    .
+      #?subfuncao            loa:codigo  "122"   .
+      #?programa             loa:codigo  "2029"  .
+      #?acao                 loa:codigo  "7K66"  .
+      #?subtitulo            loa:codigo  "0014"  .
+      #?planoorcamentario    loa:codigo  "0000"  .
+      #?fonte                loa:codigo  "100"   .
+      #?resultadoprimario    loa:codigo  "2"     .
+      #?categoriaeconomica   loa:codigo  "3"     .
+      #?GND                  loa:codigo  "3"     .
+      #?modalidadeaplicacao  loa:codigo  "90"    .
+      #?elemento             loa:codigo  "39"    .
+      #?iduso                loa:codigo  "0"     .
+
+      #FILTER (regex (?descUO, "superintendência de seguros", "i")) .
+
+
+       ?i loa:valorProjetoLei     ?val1 .
+       ?i loa:valorDotacaoInicial ?val2 .
+       ?i loa:valorLeiMaisCredito ?val3 .
+       ?i loa:valorEmpenhado      ?val4 .
+       ?i loa:valorLiquidado      ?val5 .
+       ?i loa:valorPago           ?val6 .
+  }
+} GROUP BY ?codExercicio ?codEsfera ?descEsfera ?codOrgao ?descOrgao ?codUO ?descUO ?codFuncao ?descFuncao ?codSubfuncao ?descSubfuncao ?codPrograma ?descPrograma ?codAcao ?descAcao ?codSubtitulo ?descSubtitulo ?codPlanoOrcamentario ?descPlanoOrcamentario ?codFonte ?descFonte ?codCategoriaEconomica ?descCategoriaEconomica ?codGND ?descGND ?codModalidadeAplicacao ?descModalidadeAplicacao ?codIdUso ?descIdUso ?codResultadoPrimario ?descResultadoPrimario ?codElementoDespesa ?descElementoDespesa ?data
+  ORDER BY ?codExercicio ?codEsfera ?codOrgao ?codUO ?codFuncao ?codSubfuncao ?codPrograma ?codAcao ?codSubtitulo ?codPlanoOrcamentario ?codFonte ?codCategoriaEconomica ?codGND ?codModalidadeAplicacao ?codIdUso ?codResultadoPrimario ?codElementoDespesa

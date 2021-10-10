@@ -1,0 +1,15 @@
+PREFIX loa: <http://vocab.e.gov.br/2013/09/loa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?linha ?UO ?Funcao ?Programa ?Acao ?DotInicial WHERE
+{
+   ?linha rdf:type loa:ItemDespesa .
+   FILTER (regex (?linha, "221900", "i")) .
+   ?linha   loa:temExercicio   [loa:identificador 2021] .
+   ?linha   loa:temUnidadeOrcamentaria [rdfs:label ?UO] .
+   ?linha   loa:temFuncao  [rdfs:label ?Funcao] .
+   ?linha   loa:temPrograma  [rdfs:label ?Programa] .
+   ?linha   loa:temAcao  [rdfs:label ?Acao] .
+   ?linha   loa:valorDotacaoInicial  ?DotInicial .
+}

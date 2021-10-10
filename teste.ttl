@@ -1,0 +1,7 @@
+PREFIX loa: <http://vocab.e.gov.br/2013/09/loa#>
+
+SELECT distinct ?prop 
+WHERE {
+    ?id              loa:temExercicio  [loa:identificador 2021] .
+    ?id              ?prop          ?val .
+}

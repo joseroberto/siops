@@ -1,0 +1,11 @@
+PREFIX loa: <http://vocab.e.gov.br/2013/09/loa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?Funcao ?DotacaoInicial   WHERE
+{
+   ?i  rdf:type  loa:ItemDespesa .
+   ?i  loa:temExercicio  [loa:identificador 2021] . 
+   ?i  loa:temFuncao  [rdfs:label ?Funcao] .
+   ?i  loa:valorDotacaoInicial  ?DotacaoInicial .
+} LIMIT 5

@@ -1,0 +1,4 @@
+SELECT DISTINCT ?concept
+WHERE {
+    [] a ?concept 
+}

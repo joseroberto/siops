@@ -1,0 +1,16 @@
+PREFIX loa: <http://vocab.e.gov.br/2013/09/loa#>
+
+SELECT  ?exercicio  (sum(?val1) as ?ploa) (sum(?val2) as ?loa) (sum(?val3) as ?lei_mais_credito) (sum(?val4) as ?empenhado) (sum(?val5) as ?liquidado) (sum(?val6) as ?pago) WHERE { 
+    GRAPH <http://orcamento.dados.gov.br/2021/> {
+        ?endExercicio loa:dataUltimaAtualizacao ?data .
+        ?endExercicio loa:identificador ?exercicio .
+        ?i a loa:ItemDespesa .    
+        ?i loa:valorProjetoLei ?val1 .
+        ?i loa:valorDotacaoInicial ?val2 .
+        ?i loa:valorLeiMaisCredito ?val3 .
+        ?i loa:valorEmpenhado ?val4 .
+        ?i loa:valorLiquidado ?val5 .
+        ?i loa:valorPago ?val6 .
+    }
+ } Group By ?exercicio 
+  Order By ?exercicio

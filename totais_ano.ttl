@@ -1,0 +1,7 @@
+PREFIX loa: <http://vocab.e.gov.br/2013/09/loa#>
+
+SELECT  ?year  (sum(?value)  as  ?total)
+WHERE {
+   ?i  loa:temExercicio  ?year .
+   ?i  loa:valorDotacaoInicial  ?value . 
+} GROUP BY  ?year  ORDER BY  ?year

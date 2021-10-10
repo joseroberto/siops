@@ -1,0 +1,31 @@
+PREFIX loa: <http://vocab.e.gov.br/2013/09/loa#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?codExercicio ?data ?codOrgao ?descOrgao ?codUO ?descUO ?codAcao ?descAcao  (sum(?val1) as ?ploa) (sum(?val2) as ?loa) (sum(?val3) as ?lei_mais_credito) (sum(?val4) as ?empenhado) (sum(?val5) as ?liquidado) (sum(?val6) as ?pago) WHERE { 
+   GRAPH <http://orcamento.dados.gov.br/2016/> {
+
+       ?i                    loa:temExercicio            ?exercicio .
+       ?exercicio            loa:dataUltimaAtualizacao   ?data .
+       ?exercicio            loa:identificador           ?codExercicio .
+       ?UO                   loa:temOrgao                ?orgao .
+       ?orgao                loa:codigo                  ?codOrgao .
+       ?orgao                rdfs:label                  ?descOrgao .
+       ?i                    loa:temUnidadeOrcamentaria  ?UO .
+       ?UO                   loa:codigo                  ?codUO .
+       ?UO                   rdfs:label                  ?descUO . 
+       ?i                    loa:temAcao                 ?acao .
+       ?acao                 loa:codigo                  ?codAcao .
+       ?acao                 rdfs:label                  ?descAcao .
+
+       ?orgao                loa:codigo  "39000" .
+
+       ?i loa:valorProjetoLei     ?val1 .
+       ?i loa:valorDotacaoInicial ?val2 .
+       ?i loa:valorLeiMaisCredito ?val3 .
+       ?i loa:valorEmpenhado      ?val4 .
+       ?i loa:valorLiquidado      ?val5 .
+       ?i loa:valorPago           ?val6 .
+  }
+} GROUP BY ?codExercicio ?codOrgao ?descOrgao ?codUO ?descUO ?codAcao ?descAcao ?data
+  ORDER BY ?codExercicio ?codOrgao ?codUO ?codAcao 
+
